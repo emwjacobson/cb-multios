@@ -14,6 +14,14 @@ COPY . ./
 
 ENV BITNESS=64
 
+# START Emerson
+
+RUN apt update \
+  && apt -y upgrade \
+  && DEBIAN_FRONTEND=noninteractive apt install -y 'afl++'
+
+# END Emerson
+
 RUN ["/bin/bash", "./build.sh"]
 
 ENTRYPOINT "/bin/bash"
