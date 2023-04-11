@@ -7,7 +7,7 @@ DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
 if [[ -z "${NO_PYTHON_I_KNOW_WHAT_I_AM_DOING_I_SWEAR}" ]]; then
   # Install necessary python packages
-  if ! /usr/bin/env python -c "import xlsxwriter; import Crypto" 2>/dev/null; then
+  if ! /usr/bin/env python2 -c "import xlsxwriter; import Crypto" 2>/dev/null; then
       echo "Please install required python packages" >&2
       echo "  $ sudo pip install xlsxwriter pycrypto" >&2
       exit 1
@@ -47,6 +47,7 @@ if command -v ninja >/dev/null; then
 fi
 
 # shellcheck disable=SC2086
-cmake $CMAKE_OPTS ..
+# cmake $CMAKE_OPTS ..
+cmake -DCMAKE_C_FLAGS="-fcommon" -DCMAKE_CXX_FLAGS="-fcommon" $CMAKE_OPTS ..
 
 cmake --build .
