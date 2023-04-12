@@ -64,8 +64,10 @@ function build_afl {
   cd "${DIR}/build_afl"
 
   # We need to compile with afl-clang :)
-  CC=afl-clang
-  CXX=afl-clang++
+#  CC=afl-clang
+#  CXX=afl-clang++
+  CC=afl-clang-fast
+  CXX=afl-clang-fast++
 
   build
 }
