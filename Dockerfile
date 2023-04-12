@@ -10,9 +10,6 @@ RUN python2 -m pip install xlsxwriter pycrypto defusedxml pyyaml matplotlib
 RUN ln -s /usr/bin/python2 /usr/bin/python
 
 WORKDIR /cb-multios
-COPY . ./
-
-ENV BITNESS=64
 
 # START Emerson
 
@@ -21,6 +18,9 @@ RUN apt update \
   && DEBIAN_FRONTEND=noninteractive apt install -y 'afl++'
 
 # END Emerson
+
+COPY . ./
+ENV BITNESS=64
 
 RUN ["/bin/bash", "./build.sh"]
 
