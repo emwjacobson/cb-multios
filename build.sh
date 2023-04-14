@@ -4,6 +4,8 @@ set -e
 
 # Root cb-multios directory
 DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+SYMCC_BIN="/cb-multios/symcc/build" # symcc,sym++
+SYMCC_HELPER="/root/.cargo/bin/symcc_fuzzing_helper"
 
 if [[ -z "${NO_PYTHON_I_KNOW_WHAT_I_AM_DOING_I_SWEAR}" ]]; then
   # Install necessary python packages
@@ -13,6 +15,17 @@ if [[ -z "${NO_PYTHON_I_KNOW_WHAT_I_AM_DOING_I_SWEAR}" ]]; then
       exit 1
   fi
 fi
+
+function symcc {
+  cd symcc
+  mkdir build
+  cd build
+  cmake -DQSYM_BACKEND=ON -DZ3_TRUST_SYSTEM_VERSION=ON ..
+  make -j$(nproc)
+
+  cd .. # /cb-multios/symcc
+  cargo install --path util/symcc_fuzzing_helper
+}
 
 function build {
   echo "Creating Makefiles"
@@ -63,14 +76,32 @@ function build_afl {
   mkdir -p "${DIR}/build_afl"
   cd "${DIR}/build_afl"
 
+  export AFL_USE_ASAN=1
+
   # We need to compile with afl-clang :)
-#  CC=afl-clang
-#  CXX=afl-clang++
-  CC=afl-clang-fast
-  CXX=afl-clang-fast++
+  CC=afl-clang
+  CXX=afl-clang++
+#  CC=afl-clang-fast
+#  CXX=afl-clang-fast++
 
   build
 }
 
-build_regular &
+function build_symcc {
+  echo "Creating build_symcc directory"
+  mkdir -p "${DIR}/build_symcc"
+  cd "${DIR}/build_symcc"
+
+  export SYMCC_REGULAR_LIBCXX=true
+
+  CC=${SYMCC_BIN}/symcc
+  CXX=${SYMCC_BIN}/sym++
+
+  build
+}
+
+symcc
+
+build_symcc
+build_regular
 build_afl
