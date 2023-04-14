@@ -27,4 +27,4 @@ RUN ["/bin/bash", "./build.sh"]
 
 WORKDIR /cb-multios/scripts
 
-ENTRYPOINT "/bin/bash"
+CMD ["/bin/bash", "/cb-multios/scripts/exploit.sh"]

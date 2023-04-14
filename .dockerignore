@@ -1,0 +1,14 @@
+persistent/
+.git
+.github
+backup_challenges
+disabled-challenges
+Dockerfile
+LICENSE
+linux-working.txt
+linux-working64.txt
+README.md
+.appveyor.yml
+.gitignore
+.gitmodules
+CONTRIBUTORS
