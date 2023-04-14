@@ -102,6 +102,6 @@ function build_symcc {
 
 symcc
 
-build_symcc
 build_regular
+build_symcc
 build_afl
