@@ -1,3 +1,8 @@
+# Some ways of running this...
+
+## Running in the background
+`docker run -d -v $(pwd)/persistent:/persistent --restart unless-stopped cb-multios:22.04`
+
 # DARPA Challenge Binaries on Linux, OS X, and Windows
 
 [![Build Status](https://travis-ci.org/trailofbits/cb-multios.svg?branch=master)](https://travis-ci.org/trailofbits/cb-multios)
