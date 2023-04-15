@@ -23,6 +23,8 @@ WORKDIR /cb-multios
 
 COPY . ./
 
+ENV LINK=STATIC
+
 RUN ["/bin/bash", "./build.sh"]
 
 WORKDIR /cb-multios/scripts
