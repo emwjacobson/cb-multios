@@ -13,6 +13,7 @@ WORKDIR /cb-multios
 COPY . ./
 
 ENV BITNESS=64
+ENV LINK=STATIC
 
 RUN ["/bin/bash", "./build.sh"]
 
