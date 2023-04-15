@@ -17,19 +17,31 @@ if [[ -z "${NO_PYTHON_I_KNOW_WHAT_I_AM_DOING_I_SWEAR}" ]]; then
 fi
 
 function symcc {
+  cd ${DIR}
+
   cd symcc
   mkdir build
   cd build
-  cmake -DQSYM_BACKEND=ON -DZ3_TRUST_SYSTEM_VERSION=ON ..
-  make -j$(nproc)
+
+  CC=clang-14
+  CXX=clang++-14
+  CMAKE_OPTS="-DCMAKE_C_COMPILER=${CC} -DCMAKE_ASM_COMPILER=${CC} -DCMAKE_CXX_COMPILER=${CXX}"
+  cmake -DQSYM_BACKEND=ON -DZ3_TRUST_SYSTEM_VERSION=ON ${CMAKE_OPTS} ..
+  make #-j$(nproc)
 
   cd .. # /cb-multios/symcc
   cargo install --path util/symcc_fuzzing_helper
+
+  unset CC
+  unset CXX
+  unset CMAKE_OPTS
 }
 
 function build {
+#  cd ${DIR} - DONT DO THIS! We want to be in a build folder from before being invoked :)
+
   echo "Creating Makefiles"
-  CMAKE_OPTS="${CMAKE_OPTS} -DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
+  CMAKE_OPTS="-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
 
   CMAKE_OPTS="$CMAKE_OPTS -DCMAKE_C_COMPILER=$CC"
   CMAKE_OPTS="$CMAKE_OPTS -DCMAKE_ASM_COMPILER=$CC"
@@ -52,11 +64,11 @@ function build {
     CMAKE_OPTS="-G Ninja $CMAKE_OPTS"
   fi
 
-  # shellcheck disable=SC2086
-  # cmake $CMAKE_OPTS ..
   cmake -DCMAKE_C_FLAGS="-fcommon" -DCMAKE_CXX_FLAGS="-fcommon" $CMAKE_OPTS ..
 
   cmake --build .
+
+  unset CMAKE_OPTS
 }
 
 function build_regular {
@@ -64,11 +76,13 @@ function build_regular {
   mkdir -p "${DIR}/build"
   cd "${DIR}/build"
 
-  # Honor CC and CXX environment variables, default to clang otherwise
-  CC=${CC:-clang}
-  CXX=${CXX:-clang++}
+  CC=clang-14
+  CXX=clang++-14
 
   build
+
+  unset CC
+  unset CXX
 }
 
 function build_afl {
@@ -81,10 +95,11 @@ function build_afl {
   # We need to compile with afl-clang :)
   CC=afl-clang
   CXX=afl-clang++
-#  CC=afl-clang-fast
-#  CXX=afl-clang-fast++
 
   build
+
+  unset CC
+  unset CXX
 }
 
 function build_symcc {
@@ -98,6 +113,10 @@ function build_symcc {
   CXX=${SYMCC_BIN}/sym++
 
   build
+
+  export -n SYMCC_REGULAR_LIBCXX
+  unset CC
+  unset CXX
 }
 
 symcc
