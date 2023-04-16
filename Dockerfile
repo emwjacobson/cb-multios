@@ -11,6 +11,7 @@ RUN apt update \
     python3-dev automake git flex bison libglib2.0-dev libpixman-1-dev python3-setuptools cargo libgtk-3-dev \
     lld-14 llvm-14 llvm-14-dev clang-14 ninja-build \
     gcc-12 gcc-12-plugin-dev libstdc++-12-dev \
+    z3 \
   && rm -rf /var/lib/apt/lists/*
 RUN curl https://bootstrap.pypa.io/pip/2.7/get-pip.py -o get-pip.py \
   && python2 get-pip.py
