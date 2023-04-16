@@ -3,6 +3,13 @@
 ## Running in the background
 `docker run -d -v $(pwd)/persistent:/persistent --restart unless-stopped cb-multios:22.04`
 
+# TODO List!
+
+Cool things I wanna do, if I have enough time to implement them!
+
+- SymQEMU support! Binary-only symbolic executor
+  - https://github.com/eurecom-s3/symqemu
+
 # DARPA Challenge Binaries on Linux, OS X, and Windows
 
 [![Build Status](https://travis-ci.org/trailofbits/cb-multios.svg?branch=master)](https://travis-ci.org/trailofbits/cb-multios)
