@@ -3,7 +3,9 @@
 set -e
 
 # Root cb-multios directory
-DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+DIR=/cb-multios
+
+cd ${DIR}
 
 if [[ -z "${NO_PYTHON_I_KNOW_WHAT_I_AM_DOING_I_SWEAR}" ]]; then
   # Install necessary python packages
@@ -22,8 +24,8 @@ echo "Creating Makefiles"
 CMAKE_OPTS="${CMAKE_OPTS} -DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
 
 # Honor CC and CXX environment variables, default to clang otherwise
-CC=${CC:-clang}
-CXX=${CXX:-clang++}
+CC=clang-14
+CXX=clang++-14
 
 CMAKE_OPTS="$CMAKE_OPTS -DCMAKE_C_COMPILER=$CC"
 CMAKE_OPTS="$CMAKE_OPTS -DCMAKE_ASM_COMPILER=$CC"
