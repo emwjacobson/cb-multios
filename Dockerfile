@@ -28,6 +28,8 @@ COPY . ./
 
 RUN ["/bin/bash", "./scripts/build_afl.sh"]
 RUN ["/bin/bash", "./scripts/build_challenges.sh"]
+RUN ["/bin/bash", "./scripts/build_symcc.sh"]
+RUN ["/bin/bash", "./scripts/build_symqemu.sh"]
 
 WORKDIR /cb-multios/scripts
 

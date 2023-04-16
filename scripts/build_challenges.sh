@@ -51,4 +51,4 @@ fi
 # shellcheck disable=SC2086
 cmake $CMAKE_OPTS ..
 
-cmake --build .
+cmake --build . -j $(nproc)

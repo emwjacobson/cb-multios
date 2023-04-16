@@ -1,3 +1,6 @@
 [submodule "symcc"]
 	path = symcc
 	url = git@github.com:emwjacobson/symcc.git
+[submodule "symqemu"]
+	path = symqemu
+	url = git@github.com:eurecom-s3/symqemu.git

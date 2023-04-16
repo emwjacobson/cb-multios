@@ -9,3 +9,6 @@ mkdir build
 cd build
 cmake -G Ninja -DZ3_TRUST_SYSTEM_VERSION=ON -DQSYM_BACKEND=ON ..
 ninja
+
+cp sym++ /usr/bin
+cp symcc /usr/bin
